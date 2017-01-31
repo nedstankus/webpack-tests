@@ -1,6 +1,34 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	var parentJsonpFunction = window["webpackJsonp"];
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules) {
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, callbacks = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId])
+/******/ 				callbacks.push.apply(callbacks, installedChunks[chunkId]);
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			modules[moduleId] = moreModules[moduleId];
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules);
+/******/ 		while(callbacks.length)
+/******/ 			callbacks.shift().call(null, __webpack_require__);
+
+/******/ 	};
+
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	// Array means "loading", array contains callbacks
+/******/ 	var installedChunks = {
+/******/ 		0:0
+/******/ 	};
 
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +54,29 @@
 /******/ 		return module.exports;
 /******/ 	}
 
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId, callback) {
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] === 0)
+/******/ 			return callback.call(null, __webpack_require__);
+
+/******/ 		// an array means "currently loading".
+/******/ 		if(installedChunks[chunkId] !== undefined) {
+/******/ 			installedChunks[chunkId].push(callback);
+/******/ 		} else {
+/******/ 			// start chunk loading
+/******/ 			installedChunks[chunkId] = [callback];
+/******/ 			var head = document.getElementsByTagName('head')[0];
+/******/ 			var script = document.createElement('script');
+/******/ 			script.type = 'text/javascript';
+/******/ 			script.charset = 'utf-8';
+/******/ 			script.async = true;
+
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + ".bundle.js";
+/******/ 			head.appendChild(script);
+/******/ 		}
+/******/ 	};
 
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -44,27 +95,39 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var helpers_class = __webpack_require__(1);
 	var domStuff = __webpack_require__(2);
+	var otherStuff = __webpack_require__(3);
 
 	// This would be the main method.
-	(function(){
+	(function () {
 
 		console.log('main closure');
-
 	})();
 
-	var doSomething = function(){
+	var doSomething = function doSomething() {
 		alert('doing something');
-	}
+		__webpack_require__.e/* nsure */(1, function (require) {
+			// Now require it "sync"
+			__webpack_require__(4);
+		});
+	};
 
 	console.log("I'm here.");
 
-	module.exports = {a:"b"};
+	console.log(otherStuff.awesome);
+
+	document.getElementById('myButton').onclick = doSomething;
+
+	module.exports = { a: "b" }; //foobar
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
+
+	'use strict';
 
 	console.log('a');
 
@@ -74,24 +137,22 @@
 
 		var $ = jq;
 
-		function writeText(str){
+		function writeText(str) {
 
-			console.log('domstuff',domStuff.foo);
+			console.log('domstuff', domStuff.foo);
 
 			domStuff.foo = 'asdfasdf';
 
 			var li = $('<p></p>').text(str);
 
 			$('#output').append(li);
-
 		};
 
 		return {
 
 			writeText: writeText
 
-		}
-
+		};
 	}
 
 	module.exports = setUpHelpers;
@@ -100,20 +161,38 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var helpers = __webpack_require__(1);
+
+	var foo = "bar"; //testtesttesttesttest
+
+	var multiply = function multiply(x, y) {
+		return x * y;
+	};
 
 	module.exports = {
 
 		foo: "bar",
 
-		countElements: function(sel){
+		countElements: function countElements(sel) {
 			return $(sel).length;
 		},
 
-		doSomething: function(){
-			console.log('GARBAGE',("asdfasjdflaksdjf23234"));//
+		doSomething: function doSomething() {
+			console.log('GARBAGE', ("asdfasjdflaksdjf23234")); //testtest
 		}
 
+	};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+		awesome: "stuff"
 	};
 
 /***/ }

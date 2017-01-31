@@ -1,5 +1,9 @@
 var helpers = require('./helpers.js');
 
+let foo = "bar";//testtesttesttesttest
+
+var multiply = (x, y) => x*y;
+
 module.exports = {
 
 	foo: "bar",
@@ -9,7 +13,7 @@ module.exports = {
 	},
 
 	doSomething: function(){
-		console.log('GARBAGE',GARBAGE);//
+		console.log('GARBAGE',GARBAGE);//testtest
 	}
 
 };

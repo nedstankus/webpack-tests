@@ -1,29 +1,32 @@
 module.exports = function(grunt) {
 
 	var webpack = require("webpack");
-	//var webpackConfig = require("./webpack.config.js");
+	var webpackConfig = require("./webpack.config.js");
 
 	grunt.initConfig({
+		//webpack: {
+		//	build: {
+		//		entry: "./src/main.js",
+		//		output: {
+		//			path: "./dist/",
+		//			filename: "bundle.js"
+		//			//library: "heythere",
+		//			//libraryTarget: "var"
+		//		},
+		//		module: {
+		//			loaders: [
+		//				{test: /\.css$/, loader: "style!css"}
+		//			]
+		//		},
+		//		plugins: [
+		//			new webpack.DefinePlugin({
+		//				GARBAGE: JSON.stringify("asdfasjdflaksdjf23234")
+		//			})
+		//		]
+		//	}
+		//},
 		webpack: {
-			build: {
-				entry: "./src/main.js",
-				output: {
-					path: "./dist/",
-					filename: "bundle.js"
-					//library: "heythere",
-					//libraryTarget: "var"
-				},
-				module: {
-					loaders: [
-						{test: /\.css$/, loader: "style!css"}
-					]
-				},
-				plugins: [
-					new webpack.DefinePlugin({
-						GARBAGE: JSON.stringify("asdfasjdflaksdjf23234")
-					})
-				]
-			}
+			build: webpackConfig
 		},
 		watch: {
 			app: {

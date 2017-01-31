@@ -1,5 +1,6 @@
 var helpers_class = require("./helpers.js");
 var domStuff = require('./dom.js');
+var otherStuff = require('./test.js');
 
 // This would be the main method.
 (function(){
@@ -10,8 +11,18 @@ var domStuff = require('./dom.js');
 
 var doSomething = function(){
 	alert('doing something');
+	require.ensure([
+		"./delayed.js"
+	], function(require) {
+		// Now require it "sync"
+		require("./delayed.js");
+	}, "blahblah");
 }
 
 console.log("I'm here.");
 
-module.exports = {a:"b"};
+console.log(otherStuff.awesome);
+
+document.getElementById('myButton').onclick = doSomething;
+
+module.exports = {a:"b"};//foobar

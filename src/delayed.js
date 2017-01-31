@@ -1,0 +1,1 @@
+alert('delayed js is here');
